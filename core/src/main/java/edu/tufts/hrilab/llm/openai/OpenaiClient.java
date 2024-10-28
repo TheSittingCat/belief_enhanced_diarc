@@ -40,7 +40,7 @@ public class OpenaiClient {
 
   private String apiKey = null;
   private int maxTokens;
-  private String model = "gpt-4o";
+  private String model = "gpt-4o-mini";
 
   // https://platform.openai.com/docs/models
   // 2024-02-09
@@ -61,7 +61,8 @@ public class OpenaiClient {
     entry("gpt-4-0314", 8192),
     entry("gpt-4-0613", 8192),
     entry("gpt-4-1106-preview", 128000),
-    entry("gpt-4-32k-0314", 32768)
+    entry("gpt-4-32k-0314", 32768),
+    entry("gpt-4o-mini", 128000)
   );
 
   public OpenaiClient () {
@@ -69,6 +70,7 @@ public class OpenaiClient {
       Dotenv dotenv = Dotenv.load();
       apiKey = dotenv.get("OPENAI_API_KEY");
     } catch (DotenvException ex) {
+      log.error(ex.getMessage());
       log.error("Error loading .env file and retreiving API key");
     }
     if (apiKey == null) {

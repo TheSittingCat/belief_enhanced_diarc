@@ -30,7 +30,7 @@ public class LLMComponent extends DiarcComponent {
   static private Logger log = LoggerFactory.getLogger(LLMComponent.class);
 
   public String service = "openai";
-  public String model = "gpt-4o";
+  public String model = "gpt-4o-mini";
   public float temperature = 0.5f;
 
   private Tokenizer tokenizer = new Tokenizer();

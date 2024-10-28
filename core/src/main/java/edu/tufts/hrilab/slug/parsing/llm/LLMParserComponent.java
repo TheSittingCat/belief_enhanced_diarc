@@ -55,6 +55,7 @@ public class LLMParserComponent extends DiarcComponent implements NLUInterface {
     }
     if (cmdLine.hasOption("service")) {
       service = cmdLine.getOptionValue("service");
+      log.info("Using service: " + service);
     }
     if (cmdLine.hasOption("prompt")) {
       prompt = cmdLine.getOptionValue("prompt");
