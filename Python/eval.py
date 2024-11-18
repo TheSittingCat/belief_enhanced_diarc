@@ -3,7 +3,7 @@ import read_kg_data
 from tqdm import tqdm
 
 def load_client() : 
-    client = OpenAI(api_key="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")
+    client = OpenAI()
     return client
 
 def get_answer(client, prompt) : 
