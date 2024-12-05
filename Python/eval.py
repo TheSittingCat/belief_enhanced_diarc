@@ -8,7 +8,7 @@ def load_client() :
 
 def get_answer(client, prompt) : 
     completion = client.chat.completions.create(
-        model = "gpt-4o-mini",
+        model = "ft:gpt-4o-mini-2024-07-18:personal::AZxpeOEh",
         messages = [
             {
                 "role" : "user",
@@ -95,12 +95,12 @@ if __name__ == "__main__" :
     print("The medium Jaccard index is:")
     print(jaccard_index(preds, targets))
 
-    answers = [get_answer(client, prompt) for prompt in tqdm(prompts_hard)]
-    targets = list(questions_hard["target_commands"])
-    print("The hard exact match accuracy is:")
-    preds = [parse_abstract_tree(answer) for answer in tqdm(answers)]
-    print(exact_match_accuracy(preds, targets))
-    print("The hard partial match accuracy is:")
-    print(partial_match_accuracy(preds, targets))
-    print("The hard Jaccard index is:")
-    print(jaccard_index(preds, targets))
+    # answers = [get_answer(client, prompt) for prompt in tqdm(prompts_hard)]
+    # targets = list(questions_hard["target_commands"])
+    # print("The hard exact match accuracy is:")
+    # preds = [parse_abstract_tree(answer) for answer in tqdm(answers)]
+    # print(exact_match_accuracy(preds, targets))
+    # print("The hard partial match accuracy is:")
+    # print(partial_match_accuracy(preds, targets))
+    # print("The hard Jaccard index is:")
+    # print(jaccard_index(preds, targets))
