@@ -20,3 +20,6 @@ elevator_lab_test/
 /gui/yarn.lock
 /gui/build/
 /gui/node_modules/
+Data/KG/test_dataset.json
+Data/KG/train_dataset.json
+Data/KG/valid_dataset.json
