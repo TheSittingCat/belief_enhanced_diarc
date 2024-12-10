@@ -11,7 +11,7 @@ import time
 @JImplements(LLMBeliefUpdater)
 class LLMBeliefUpdater : 
     def __init__(self):
-        self.path_to_belief = "config/edu/tufts/hrilab/belief"
+        self.path_to_belief = "config/edu/tufts/hrilab/belief/llm"
         self.client = OpenAI()
     
     @JOverride
