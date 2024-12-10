@@ -11,7 +11,7 @@ import time
 @JImplements(LLMBeliefUpdater)
 class LLMBeliefUpdater : 
     def __init__(self):
-        self.path_to_belief = "config/edu/tufts/hrilab/belief/llm"
+        self.path_to_belief = "core/src/main/resources/config/edu/tufts/hrilab/belief/llm"
         self.client = OpenAI()
     
     @JOverride
@@ -30,18 +30,22 @@ class LLMBeliefUpdater :
         belief_list_formatted = []
         if belief_path is None:
             belief_path = self.path_to_belief
-        with open(belief_path, 'r') as file:
-            while line := file.readline():
-                try : 
-                    match = re.match(r'(\w+)\(([^)]+)\)', line)
-                    if match : 
-                        name = match.group(1) # name of the belief
-                        args = match.group(2).split(",") # arguments of the belief
+        try :
+            with open(belief_path, 'r') as file:
+                while line := file.readline():
+                    try : 
+                        match = re.match(r'(\w+)\(([^)]+)\)', line)
+                        if match : 
+                            name = match.group(1) # name of the belief
+                            args = match.group(2).split(",") # arguments of the belief
 
-                        belief_list_formatted.append(args + [name]) # add the belief to the list
-                except ValueError : 
-                    print("Can't parse belief: " + line)
-                    return None
+                            belief_list_formatted.append(args + [name]) # add the belief to the list
+                    except ValueError : 
+                        print("Can't parse belief: " + line)
+                        return None
+        except FileNotFoundError : 
+            print("File not found: " + belief_path)
+            return None
         return belief_list_formatted
     
     @JOverride 
@@ -79,20 +83,24 @@ class LLMBeliefUpdater :
             return message
         else : 
             for i in range(len(message)) : # For each message in the list, add or delete the belief
-                if message[i][0] == "add" : 
-                    belief.append(message[i][1:])
-                elif message[i][0] == "delete" : 
+                print(message[i])
+                list_term = [s.strip() for s in message[i].split(",")]
+                print(list_term)
+                if list_term[0] ==  "add" :  # If the first term is add
+                    belief.append(list_term[1:]) # Add the belief to the list
+                elif list_term[0] == "delete" : # If the first term is delete
                     try : 
                         belief.remove(message[i][1:])
                     except ValueError : 
                         print("Can't remove belief as it does not exist: " + message[i][1:])
         
-        with open(belief_path, "a+") as file : 
+        with open(belief_path, "w+") as file : 
             for belief_single in belief : 
                 if (belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ")\n") not in file : 
                     file.write(belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ")\n")
         
         print("Belief updated")
+        print(belief)
         return belief
     
 
