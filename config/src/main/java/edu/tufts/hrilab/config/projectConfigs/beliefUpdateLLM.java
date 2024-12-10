@@ -2,6 +2,7 @@ package edu.tufts.hrilab.config.projectConfigs;
 
 import edu.tufts.hrilab.slug.parsing.llm.LLMBeliefUpdater;
 
+
 import ai.thinkingrobots.trade.TRADE;
 import ai.thinkingrobots.trade.TRADEServiceConstraints;
 import ai.thinkingrobots.trade.TRADEServiceInfo;
@@ -19,6 +20,7 @@ public class beliefUpdateLLM extends DiarcConfiguration {
     public void runConfiguration() {
         LOG.info("Running the LLM Belief Updater");
         for(TRADEServiceInfo service : TRADE.getAvailableServices()) {
+            LOG.info(("Handling service: " + service));
             if(service.equals("UpdateBelief")) {
                 try {
                     service.call(String.class);
@@ -28,7 +30,7 @@ public class beliefUpdateLLM extends DiarcConfiguration {
                 }
             }
             else {
-                LOG.info("Service not found: " + service);
+                LOG.error("Service not found: " + service);
             }
         }
     }

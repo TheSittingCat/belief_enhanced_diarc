@@ -38,6 +38,7 @@ class LLMBeliefUpdater :
                         if match : 
                             name = match.group(1) # name of the belief
                             args = match.group(2).split(",") # arguments of the belief
+                            args = [args.strip() for args in args] # remove whitespace
 
                             belief_list_formatted.append(args + [name]) # add the belief to the list
                     except ValueError : 
@@ -63,7 +64,7 @@ class LLMBeliefUpdater :
         prompt = prefix + prompt + postfix
 
         completion = self.client.chat.completions.create(
-            model = "ft:gpt-4o-mini-2024-07-18:personal::AZxpeOEh",
+            model = "ft:gpt-4o-mini-2024-07-18:link-lab::AZvFKi2Y",
             messages = [
                 {
                     "role" : "user",
@@ -75,7 +76,11 @@ class LLMBeliefUpdater :
         message = completion.choices[0].message.content
 
         try : 
+            pattern = r"\[(.*?)\]"
+            match = re.search(pattern, message)
+            message = match.group(0)
             message = ast.literal_eval(message)
+            print("Message: " + str(message))
         except : 
             print("Can't parse message: " + message)
         
@@ -86,22 +91,25 @@ class LLMBeliefUpdater :
                 print(message[i])
                 list_term = [s.strip() for s in message[i].split(",")]
                 print(list_term)
+                if len(list_term) < 2 : 
+                    list_term = message # If the message is a single belief, add it to the list, this is due to an error on LLM side
                 if list_term[0] ==  "add" :  # If the first term is add
-                    belief.append(list_term[1:]) # Add the belief to the list
+                    if list_term[1:] not in belief :
+                        belief.append(list_term[1:]) # Add the belief to the list
                 elif list_term[0] == "delete" : # If the first term is delete
                     try : 
-                        belief.remove(message[i][1:])
+                        belief.remove(list_term[1:])
                     except ValueError : 
-                        print("Can't remove belief as it does not exist: " + message[i][1:])
+                        print("belief:" + str(belief[2]))
+                        print("Can't remove belief as it does not exist: " + str(list_term[1:]))
         
         with open(belief_path, "w+") as file : 
             for belief_single in belief : 
                 if (belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ")\n") not in file : 
-                    file.write(belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ")\n")
+                    file.write(belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ").\n")
         
         print("Belief updated")
-        print(belief)
-        return belief
+        return str(belief)
     
 
 if __name__ == "__main__" :
@@ -109,6 +117,6 @@ if __name__ == "__main__" :
     beliefupdater = LLMBeliefUpdater()
     TRADE.registerAllServices(beliefupdater, "")
     time.sleep(1)
-    print(TRADE.getAvailableServices())
-    wrapper.call_trade("UpdateBelief",)
-    #beliefupdater.UpdateBelief()
+    #print(TRADE.getAvailableServices())
+    while True : 
+        wrapper.call_trade("UpdateBelief",)

@@ -1,1 +1,2 @@
-on(knife,ground)
+in(fridge,kitchen).
+open(fridge).
