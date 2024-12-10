@@ -39,7 +39,7 @@ public class MockNaoComponent extends DiarcComponent implements MockNaoInterface
   public MockNaoComponent() {
     super();
 
-    possiblePostures = new ArrayList<>(Arrays.asList("Crouch", "LyingBack", "LyingBelly", "Sit", "SitOnChair", "SitRelax", "Stand", "StandInit", "StandZero"));
+    possiblePostures = new ArrayList<>(Arrays.asList("Crouch", "LyingBack", "LyingBelly", "Sit", "SitOnChair", "SitRelax", "Stand", "StandInit", "StandZero", "Moving"));
     currentPosture = "Stand";
     obstacle = false;
     floorSupport = true;

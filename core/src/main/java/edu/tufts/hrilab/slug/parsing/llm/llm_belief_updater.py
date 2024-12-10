@@ -19,7 +19,11 @@ class LLMBeliefUpdater :
         if belief_path is None:
             belief_path = self.path_to_belief
         belief_name = easygui.enterbox("Enter the name of the belief file to update")
-        self.path_to_belief = belief_path + "/" + belief_name + ".pl"
+        if re.match(r'.*\.pl', belief_name) is None : # If the file does not have a .pl extension, add it
+            belief_name = belief_name + ".pl" 
+        
+        if re.match(r'.*\.pl', self.path_to_belief) is None or (belief_name not in self.path_to_belief): # If the path is already determined
+            self.path_to_belief = belief_path + "/" + belief_name
 
         prompt = easygui.enterbox("Enter the prompt to update the belief file")
 

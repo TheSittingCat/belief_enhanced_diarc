@@ -1,7 +1,8 @@
 package edu.tufts.hrilab.config.projectConfigs;
 
 import edu.tufts.hrilab.slug.parsing.llm.LLMBeliefUpdater;
-
+import edu.tufts.hrilab.action.GoalManagerComponent;
+import edu.tufts.hrilab.nao.MockNaoComponent;
 
 import ai.thinkingrobots.trade.TRADE;
 import ai.thinkingrobots.trade.TRADEServiceConstraints;
@@ -33,5 +34,8 @@ public class beliefUpdateLLM extends DiarcConfiguration {
                 LOG.error("Service not found: " + service);
             }
         }
-    }
+        createInstance(MockNaoComponent.class, "");
+        createInstance(GoalManagerComponent.class, "-beliefinitfile llm/llm_test_2.pl -asl beliefexample.asl ");
+
+}
 }
