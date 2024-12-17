@@ -21,10 +21,11 @@ To avoid this error, it is possible to install the latest versions of Numpy and 
 1- Install PyTrade-Wrapper
 2- Install Numpy and Jpype with
 
-'''
+```
 pip install --no-deps numpy
+
 pip install --no-deps jpype1
-'''
+```
 
 Alternatively, you can also install numpy and Jpype1 first and then install PyTrade-Wrapper with no dependencies, but in that case additional libraries might have to be installed as well. 
 
@@ -61,31 +62,45 @@ The TRADE Service can be started (or executed) by running the llm_belief_updater
 
 All contributions, including code contributions not directly used in the execution or towards preamble files or backend requirements can be viewed at [Link][https://github.com/TheSittingCat/belief_enhanced_diarc/commits/main/] filterable by user where the usernames correspond to real persons as follows: 
 
-'''
+```
 thesittingcat -> Kaveh Eskandari Miandoab
 bluebobcat -> Clea Demuynck
 jujis -> Juliana Alscher
 Sulfruos -> Arvind Pillai
-'''
+```
 
 In addition, the following additions and differences exist between two repositories (the original and belief enhanced):
 
-'''
+```
 eval.py
+
 perform_train.py
+
 performance_analysis.py
+
 read_kg_data.py
+
 train.py
+
 training_analysis.py
+
 training_data_analysis.py
+
 llm_belief_updater.py
+
 LLMBeliefUpdater.java
+
 BeliefUpdateLLM.java
+
 projConfig.java
+
 couting.py
+
 belief_system_reader.py
+
 testing .pl files
+
 testing .asl files
-'''
+```
 
 Given the extent of additions, it is recommended to use the whole DIARC repository as the base for this one, however, it is also possible to copy the related files to their respective folders and execute directly from DIARC. 
