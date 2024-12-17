@@ -6,9 +6,9 @@ This is the GitHub Repo for the implementation of DIARC with the LLM based belie
 
 In order to install all the Python requirements, from the high level directory run the command
 
-'''
+```
 pip -r requirements.txt
-'''
+```
 
 This should install the required packages for the purposes of this project. 
 

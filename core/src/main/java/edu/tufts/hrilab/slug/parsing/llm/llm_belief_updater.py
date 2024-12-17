@@ -11,7 +11,7 @@ import time
 @JImplements(LLMBeliefUpdater)
 class LLMBeliefUpdater : 
     def __init__(self):
-        self.path_to_belief = "core/src/main/resources/config/edu/tufts/hrilab/belief/llm"
+        self.path_to_belief = "core/src/main/resources/config/edu/tufts/hrilab/belief"
         self.client = OpenAI()
     
     @JOverride
@@ -106,13 +106,18 @@ class LLMBeliefUpdater :
                     except ValueError : 
                         print("belief:" + str(belief[2]))
                         print("Can't remove belief as it does not exist: " + str(list_term[1:]))
-        
-        with open(belief_path, "w+") as file : 
-            for belief_single in belief : 
-                if (belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ")\n") not in file : 
-                    file.write(belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ").\n")
-        
-        print("Belief updated")
+
+        belief_str_box = str(belief)
+        choice = easygui.choicebox("Do you want to update the belief system with the following beliefs: " + belief_str_box, choices = ["Yes", "No"])
+        if choice == "Yes" :
+            with open(belief_path, "w+") as file : 
+                for belief_single in belief : 
+                    if (belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ")\n") not in file : 
+                        file.write(belief_single[-1] + "(" + ",".join(belief_single[:-1]) + ").\n")
+            
+            easygui.msgbox("Belief updated")
+        else : 
+            easygui.msgbox("Belief Revereted, You Can Always Try a new Prompt!")
         return str(belief)
     
 
@@ -122,5 +127,9 @@ if __name__ == "__main__" :
     TRADE.registerAllServices(beliefupdater, "")
     time.sleep(1)
     #print(TRADE.getAvailableServices())
-    while True : 
+    try_again = True
+    while try_again : # This is used for calling the TRADE Service directly, if you want to just register it, comment this area out and keep the program running.
         wrapper.call_trade("UpdateBelief",)
+        choice = easygui.choicebox("Continue the Execution?", choices = ["Yes", "No"])
+        if choice == "No" : 
+            try_again = False
