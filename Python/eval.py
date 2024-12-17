@@ -68,7 +68,7 @@ def parse_abstract_tree(x) :
 if __name__ == "__main__" : 
     client = load_client()
     questions = read_kg_data.read_all_kg_data("Data/KG/valid_dataset.json")
-    questions_easy, questions_medium, questions_hard = read_kg_data.split_kg_data_by_difficulty(questions, "all")
+    questions_easy, questions_medium, questions_hard = read_kg_data.split_kg_data_by_difficulty(questions, "env_length")
     questions_easy = questions_easy.iloc[:200] # Test on the 200 easiest questions
     questions_medium = questions_medium.iloc[:200] # Test on the 200 medium questions
     questions_hard = questions_hard.iloc[:200] # Test on the 200 hardest questions
@@ -95,12 +95,12 @@ if __name__ == "__main__" :
     print("The medium Jaccard index is:")
     print(jaccard_index(preds, targets))
 
-    # answers = [get_answer(client, prompt) for prompt in tqdm(prompts_hard)]
-    # targets = list(questions_hard["target_commands"])
-    # print("The hard exact match accuracy is:")
-    # preds = [parse_abstract_tree(answer) for answer in tqdm(answers)]
-    # print(exact_match_accuracy(preds, targets))
-    # print("The hard partial match accuracy is:")
-    # print(partial_match_accuracy(preds, targets))
-    # print("The hard Jaccard index is:")
-    # print(jaccard_index(preds, targets))
+    answers = [get_answer(client, prompt) for prompt in tqdm(prompts_hard)]
+    targets = list(questions_hard["target_commands"])
+    print("The hard exact match accuracy is:")
+    preds = [parse_abstract_tree(answer) for answer in tqdm(answers)]
+    print(exact_match_accuracy(preds, targets))
+    print("The hard partial match accuracy is:")
+    print(partial_match_accuracy(preds, targets))
+    print("The hard Jaccard index is:")
+    print(jaccard_index(preds, targets))

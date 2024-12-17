@@ -25,5 +25,5 @@ if __name__ == "__main__" :
     client = OpenAI()
     #client, filename = upload_data("Data/KG/training_data_belief_updates.json")
     #time.sleep(80) # Wait for the file to upload and be processed
-    start_training(client, "file-FpaZkSDjFEFaTV49jJnTy4") # The filename is the id of the file
+    start_training(client, "file-FpaZkSDjFEFaTV49jJnTy4") # The filename is the id of the file, potentially replace it with the filename variable
     print("The training has started, wait for the email to see the results")
